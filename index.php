@@ -8,8 +8,9 @@ require( dirname( __FILE__ ) . '/Color_RGB.php' );
 
 if ( isset( $_GET[ 'c' ] ) ) {
 	$color = ( new \KissColor\Color_RGB )->from_string( $_GET[ 'c' ] );
-	echo 'Color ' . $color->to_hex( ) . HTML_EOL;
-	echo 'Nearest color ' . $color->get_nearest_reference_color_name( ) . HTML_EOL;
+	$reference = $color->get_nearest_reference( );
+	echo '<div style="height:50px; text-align: center; background-color: ' . $color->to_hex( ) . '">Votre couleur ' . $_GET[ 'c' ] . ' semble proche de... </div>';
+	echo '<div style="height:50px; text-align: center; background-color: ' . $reference->to_hex( ) . '">' . $color->references[ $reference->to_hex( ) ] . '</div>';
 } else {
 	$color = new \KissColor\Color_RGB( );
 

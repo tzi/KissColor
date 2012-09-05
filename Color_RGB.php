@@ -13,33 +13,33 @@ class Color_RGB {
 	/*************************************************************************
 	 ATTRIBUTES
 	 *************************************************************************/
-	private	$references = [
-		'#8888FF' => 'bleu clair',
-		'#88FF88' => 'vert clair',
-		'#FFFF88' => 'jaune clair',
-		'#F6A14A' => 'orange clair',
-		'#FF8888' => 'rose',
-		'#DA70D6' => 'Orchidée',
+	public	$references = [
+		'#0089CC' => 'Bleu clair',
+		'#8DD304' => 'Vert clair',
+		'#F4F482' => 'Jaune clair',
+		'#F4C950' => 'Orange clair',
+		'#FBB7C5' => 'Rose',
+		'#E86CC4' => 'Orchidée',
 		'#94812B' => 'Kaki',
-		'#0000FF' => 'bleu',
-		'#00FF00' => 'vert',
-		'#FFFF00' => 'jaune',
-		'#ED7F10' => 'orange',
-		'#FF0000' => 'rouge',
-		'#660099' => 'violet',
-		'#5B3C11' => 'brun',
-		'#000088' => 'bleu foncé',
-		'#008800' => 'vert foncé',
-		'#888800' => 'jaune foncé',
-		'#842E1B' => 'brique',
-		'#6D071A' => 'bordeaux',
-		'#9E0E40' => 'pourpre',
-		'#3F2204' => 'brun foncé',
-		'#FFFFFF' => 'blanc',
-		'#000000' => 'noir',
-		'#CCCCCC' => 'gris clair',
-		'#888888' => 'gris',
-		'#444444' => 'gris foncé',
+		'#0046B6' => 'Bleu',
+		'#01B194' => 'Vert',
+		'#F8E218' => 'Jaune',
+		'#ED6E01' => 'Orange',
+		'#ED2C34' => 'Rouge',
+		'#98178E' => 'Violet',
+		'#956206' => 'Brun',
+		'#25193D' => 'Bleu foncé',
+		'#144C2A' => 'Vert foncé',
+		'#FDC918' => 'Jaune foncé',
+		'#BA5500' => 'Brique',
+		'#7C222D' => 'Bordeaux',
+		'#512246' => 'Pourpre',
+		'#4C270C' => 'Brun foncé',
+		'#FFFFFF' => 'Blanc',
+		'#000000' => 'Noir',
+		'#CCCCCC' => 'Gris clair',
+		'#888888' => 'Gris',
+		'#444444' => 'Gris foncé',
 	];
 	private $attr = [ 'r', 'g', 'b' ];
 	public $r;
@@ -100,13 +100,12 @@ class Color_RGB {
 			$color_distances[ $this->get_distance( $color ) ] = $color;
 		}
 		ksort( $color_distances );
+		// print_r( $color_distances );
 		return array_shift( $color_distances );
 	}
 
-	public function get_nearest_reference_color_name( ) {
-		return $this->references[ 
-			$this->get_nearest( array_keys( $this->references ) )
-		];
+	public function get_nearest_reference( ) {
+		return ( new \KissColor\Color_RGB )->by_hex( $this->get_nearest( array_keys( $this->references ) ) );
 	}
 
 
@@ -116,9 +115,13 @@ class Color_RGB {
 	public function to_hex( ) {
 		$hex = '#';
 		foreach ( $this->attr as $attr ) {
-			$hex .= base_convert( $this->$attr, 10, 16 );
+			$attr_hex = base_convert( $this->$attr, 10, 16 );
+			if ( strlen( $attr_hex ) == 1 ) {
+				$attr_hex = 0 . $attr_hex;
+			}
+			$hex .= $attr_hex;
 		}
-		return $hex;
+		return strtoupper( $hex );
 	}
 
 	public function to_array( ) {
